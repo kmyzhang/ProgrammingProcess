@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>My Map</h2>
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+      var baseMapLayer = new ol.layer.Tile({
+        source: new ol.source.OSM()
+      });
+      var map = new ol.Map({
+        target: 'map',
+        layers: [ baseMapLayer],
+        view: new ol.View({
+                center: ol.proj.fromLonLat([-120.65, 35.32]), 
+                zoom: 6
+              })
+      });
+
+      //Adding a marker on the map
+      var marker1 = new ol.Feature({
+        geometry: new ol.geom.Point(
+          ol.proj.fromLonLat([-120.65, 35.32])
+        ),  
+      });
+
+      //Adding a second marker on the map
+      var marker2 = new ol.Feature({
+        geometry: new ol.geom.Point(
+          ol.proj.fromLonLat([-117.7734, 33.6866])
+        ),  
+      });
+
+      //Set color of first marker
+      marker1.setStyle(new ol.style.Style({
+          image: new ol.style.Icon(({
+              crossOrigin: 'anonymous',
+              src: 'dot.png'
+          }))
+      }));
+
+      var vectorSource = new ol.source.Vector({
+        features: [marker1, marker2]
+      });
+
+      var markerVectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+      });
+
+      map.addLayer(markerVectorLayer);
+    </script>
+  </body>
+</html>
